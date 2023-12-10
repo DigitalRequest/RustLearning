@@ -115,3 +115,33 @@ pub fn nth_floyd_line(num: i32) -> i32 {
 
     line
 }
+
+fn gcd(mut a: i32, mut b: i32) -> i32 {
+    while b != 0 {
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+    a
+}
+
+fn lcm(a: i32, b: i32) -> i32 {
+    if a == 0 || b == 0 {
+        return 0;
+    }
+    (a * b).abs() / gcd(a, b)
+}
+
+fn sum_dif_p(input: Vec<(i32, i32)>) -> i32 {
+
+    let mut final_vec:Vec<i32> = vec![];
+
+    for x in input.iter() {
+        // Use the tuple directly or use x.0 and x.1 as needed
+        final_vec.push(x.0 * x.1 - lcm(x.0, x.1));
+    }
+
+    let result: i32 = final_vec.into_iter().sum();
+
+    result
+}
