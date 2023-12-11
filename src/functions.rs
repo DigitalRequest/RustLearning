@@ -116,7 +116,7 @@ pub fn nth_floyd_line(num: i32) -> i32 {
     line
 }
 
-fn gcd(mut a: i32, mut b: i32) -> i32 {
+pub fn gcd(mut a: i32, mut b: i32) -> i32 {
     while b != 0 {
         let temp = b;
         b = a % b;
@@ -125,14 +125,14 @@ fn gcd(mut a: i32, mut b: i32) -> i32 {
     a
 }
 
-fn lcm(a: i32, b: i32) -> i32 {
+pub fn lcm(a: i32, b: i32) -> i32 {
     if a == 0 || b == 0 {
         return 0;
     }
     (a * b).abs() / gcd(a, b)
 }
 
-fn sum_dif_p(input: Vec<(i32, i32)>) -> i32 {
+pub fn sum_dif_p(input: Vec<(i32, i32)>) -> i32 {
 
     let mut final_vec:Vec<i32> = vec![];
 
@@ -144,4 +144,45 @@ fn sum_dif_p(input: Vec<(i32, i32)>) -> i32 {
     let result: i32 = final_vec.into_iter().sum();
 
     result
+}
+
+pub fn grasshopper_sum(inp: i32) -> i32 {
+    let vec: i32 = (1..inp + 1).into_iter().sum();
+
+    vec
+}
+
+pub fn disemvowel_trolls(string: &str) -> String {
+
+    let vowels = ['a', 'e', 'i', 'o', 'u'];
+
+    let new_str = string.chars()
+        .filter(|c| !vowels.contains(&c.to_ascii_lowercase()))
+        .collect();
+
+    new_str
+
+}
+
+pub fn quadratic_coefficients_solver(x1: i32, x2: i32) -> (i32, i32, i32) {
+
+    let c = x1 * x2;
+
+    let b = -(x1 + x2);
+
+    (1, b, c)
+}
+
+pub fn stringy(size: i16) -> String {
+    let str: String = (1..=size)
+        .filter_map(|c| {
+            if c % 2 == 0 {
+                Some("0")
+            } else {
+                Some("1")
+            }
+        })
+        .collect();
+
+    str
 }
