@@ -1,3 +1,5 @@
+use std::num::ParseIntError;
+
 struct Ship {
     draft: u32,
     crew: u32,
@@ -185,4 +187,80 @@ pub fn stringy(size: i16) -> String {
         .collect();
 
     str
+}
+
+pub fn what_century_is_it(input: &str) -> String {
+    let mut century_int: Result<i32, ParseIntError> = input.clone().parse::<i32>();
+
+    let mut century: String = match century_int {
+        Ok(ok) => {
+            Some((ok / 100) + 1).unwrap().to_string()
+        }
+        Err(err) => {
+            let error_message = format!("Error parsing input: {}", err);
+
+            eprintln!("{}", error_message);
+
+            "Error".to_string()
+        }
+    };
+
+    if century.chars().nth(1) == Some('1') {
+        century.push_str("st");
+    } else if century.chars().nth(1) == Some('2') {
+        century.push_str("nd");
+    } else if century.chars().nth(1) == Some('3') {
+        century.push_str("rd");
+    } else {
+        century.push_str("th");
+    }
+
+    century
+}
+
+pub fn remove_consec_dup(arr: Vec<String>) -> Vec<String> {
+    let new_arr: Vec<String> = arr.iter()
+        .map(
+            |word| {
+                let mut new_word: String = String::new();
+                let mut prev_char: Option<char> = None;
+
+                for char in word.chars() {
+                    if let Some(prev) = prev_char {
+                        if char != prev {
+                            new_word.push(char);
+                        }
+                    } else {
+                        new_word.push(char);
+                    }
+                    prev_char = Some(char);
+                }
+
+                new_word
+            }
+        ).collect();
+
+    new_arr
+}
+
+pub fn remove_consec_dup_optimized(arr: Vec<String>) -> Vec<String> {
+    arr.iter()
+        .map(|word| {
+            let mut new_word = String::with_capacity(word.len());
+            let mut chars = word.chars();
+
+            if let Some(mut prev_char) = chars.next() {
+                new_word.push(prev_char);
+
+                for char in chars {
+                    if char != prev_char {
+                        new_word.push(char);
+                        prev_char = char;
+                    }
+                }
+            }
+
+            new_word
+        })
+        .collect()
 }
